@@ -1,0 +1,9 @@
+# WATE Hello World Example
+# Standard printing to console
+
+out("⚡ Hello, World!")
+print("Welcome to WATE Language!")
+
+# Basic math operation print
+set result = math.sqrt(256)
+out(f"Square root of 256 is: {result}")

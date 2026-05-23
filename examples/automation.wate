@@ -1,0 +1,27 @@
+# WATE Web Browser Scraper / Bot Example
+# Run with permissions: wate run automation.wate --allow-all
+
+import "bot"
+
+async fn scrapeTitle() {
+    out("🤖 Starting WATE Bot Web Scraper...")
+    
+    # Open the browser viewport to a destination website
+    bot.open("https://example.com")
+    
+    # Wait for the page content load cycle to stabilize
+    await bot.wait(1000)
+    
+    # Extract structural text from the DOM elements
+    set header = bot.getText("h1")
+    set para = bot.getText("p")
+    
+    out(f"✅ Scraping successful!")
+    out(f"   [Header] {header}")
+    out(f"   [Paragraph] {para}")
+    
+    # Safely close the bot instance
+    bot.close()
+}
+
+scrapeTitle()

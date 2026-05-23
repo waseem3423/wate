@@ -1,0 +1,23 @@
+# WATE SQLite Database Integration Example
+# Run with permissions: wate run database.wate --allow-read --allow-write
+
+import "sqlite"
+
+# Initialize SQLite database
+set db = SQLiteDatabase("local_wate.db")
+
+# Create a sample table
+db.execute("CREATE TABLE IF NOT EXISTS developers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, language TEXT)")
+out("✅ SQLite Table created or verified.")
+
+# Insert mock records
+db.execute("INSERT INTO developers (name, language) VALUES (?, ?)", ["Waseem Akram", "WATE"])
+db.execute("INSERT INTO developers (name, language) VALUES (?, ?)", ["Antigravity AI", "JavaScript"])
+out("✅ Mock developer records inserted.")
+
+# Query the table
+set rows = db.query("SELECT * FROM developers")
+out("\n📋 Query Results:")
+for dev in rows {
+    out(f" - [{dev.id}] {dev.name} writes {dev.language}")
+}

@@ -1,0 +1,28 @@
+# WATE HTTP Web Server Example
+# Run with permissions: wate run server.wate --allow-net
+
+import "web"
+
+set app = WebApp()
+
+# Simple GET route
+app.get("/", fn(req, res) {
+    res.json({
+        status: "success",
+        message: "WATE Web Server is fully operational! ⚡"
+    })
+})
+
+# Route with path parameters
+app.get("/api/user/:id", fn(req, res) {
+    res.json({
+        userId: req.params.id,
+        role: "developer",
+        active: true
+    })
+})
+
+# Start listening on port 8080
+app.listen(8080, fn() {
+    out("🚀 Production backend server live at http://localhost:8080")
+})

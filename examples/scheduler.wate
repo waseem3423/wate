@@ -1,0 +1,15 @@
+# WATE Pythonic Scheduler Example
+# Demonstrates scheduling tasks with human-readable time syntax
+
+out("⏰ WATE Task Scheduler Active (Press Ctrl+C to terminate)")
+
+# Schedule a repeating task every 2 seconds
+set heartbeat = every("2s", fn() {
+    out(f"⚡ [Heartbeat] System active at {date.time()}")
+})
+
+# Schedule a task every 5 seconds
+set statusLogger = every("5s", fn() {
+    set freeMem = os.freemem() / 1024 / 1024
+    out(f"📊 [Metrics] Free System RAM: {math.round(freeMem)} MB")
+})

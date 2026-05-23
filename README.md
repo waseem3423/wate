@@ -1,238 +1,264 @@
 # ⚡ WATE Programming Language
 
-> **A production-ready, ultra-fast scripting language and automation engine**
-> Created by **WazemTech (Waseem Akram)**
+> **Modern scripting language powered by AST parsing, bytecode VM, sandboxed runtime permissions, LSP support, REPL, and WPM package manager.**
 
-[![Version](https://img.shields.io/badge/version-12.0.0-blue)](#)
-[![License](https://img.shields.io/badge/license-MIT-green)](#)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20Mac-lightgrey)](#)
+<div align="center">
 
-WATE is a **high-performance, human-friendly scripting language** designed for rapid backend development, job scheduling, database management, and browser automation. Powered by a custom **Recursive Descent AST Parser**, WATE compiles directly to optimized JavaScript and packages into a standalone single-file Windows executable `.exe` — with ZERO external dependencies!
+[![Release](https://img.shields.io/badge/Release-v10.0.0--Stable--Core-blueviolet?style=for-the-badge&logo=github)](#)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](#)
+[![Platform](https://img.shields.io/badge/Platform-Windows-blue?style=for-the-badge&logo=windows)](#)
+[![Developer](https://img.shields.io/badge/Built_By-WazemTech-FF6B35?style=for-the-badge)](#)
 
----
-
-## 🚀 Key Production Features
-
-* **⚡ AST-Level Recursive Inlining Compiler** — Compiles files and dependency package sub-nodes into a single unified execution stream.
-* **📦 Professional WPM Package Manager** — Includes built-in offline pre-bundled fallback implementations for 12 official enterprise packages.
-* **⚠️ High-Fidelity Caret Diagnostics** — Direct console pointers pointing to precise filenames, error lines, columns, and surrounding code blocks.
-* **💾 Rich OOP & Compile-Time Checklists** — ES6 classes, getters/setters, constructor trees, private fields (`#name`), and interface validations.
-* **⏱️ Pythonic Job Scheduler** — Native async job tick scheduler (`every`) with time-unit parsing (`"2s"`, `"5m"`, `"3h"`, `"1d"`).
-* **🌐 Web Automation & Real OS Browser Popup** — Visual OS browser window controller supporting `open`, `click`, `type`, and `wait` interactions.
+</div>
 
 ---
 
-## 📦 Installation & Standalone Compilation
+## 🌟 What is WATE?
 
-```powershell
-# 1. Install packaging tool globally
-npm install -g pkg
+**WATE** (Waseem Akram Transcription Engine) is an elegant, secure, and production-ready programming language. It delivers top-tier performance by utilizing a hybrid design of transpilation and virtual machine execution. WATE bridges the gap between high-level development speed and low-level runtime control.
 
-# 2. Package WATE Compiler and WPM Registry into global executables
-pkg wate.js --targets node18-win-x64 --output wate.exe
-pkg wpm.js --targets node18-win-x64 --output wpm.exe
-
-# 3. Add to your Windows User PATH or execute locally
-.\wpm.exe --help
-.\wate.exe --help
-```
+### Key Highlights:
+- 🚀 **Built-in Web Framework:** Robust, native HTTP routing system with route parameter bindings and middleware.
+- 🔒 **Sandboxed Permission Engine:** Node/Deno-like runtime permission guards (`--allow-net`, `--allow-read`, `--allow-write`, `-A`).
+- 🗄️ **Multi-Driver Database Layer:** Native support for SQLite, PostgreSQL, MySQL, MongoDB, and JSON storage out-of-the-box.
+- 🤖 **Native Web Automation:** Dynamic browser automation (headless navigation and web scraping) via the `bot` package.
+- 📦 **WPM Package Manager:** Instantly install 12 high-performance pre-bundled standard libraries offline.
+- 🧩 **Developer-First DX:** Custom VS Code language extension with 20+ ready-to-use snippets, syntax highlighting, and active LSP autocompletion.
 
 ---
 
-## 📖 Language Cheat Sheet & Advanced Syntax
+## 🏗️ Architecture
 
-### Async / Await HTTP Query
-```wate
-async fn fetchStats() {
-    out("Fetching data asynchronously...")
-    set data = await http.get("https://jsonplaceholder.typicode.com/posts/1")
-    out(f"Response Received: {data}")
-}
-fetchStats()
+WATE uses a highly optimized compile and run pipeline. It converts source code into a highly structured AST, performs static type check passes, tree-shakes unused methods, compiles to bytecode, and interprets it inside a secure virtual machine sandbox.
+
+```mermaid
+graph TD
+    A[WATE Source File .wate] --> B[Tokenizer / Lexer]
+    B --> C[Recursive Descent AST Parser]
+    C --> D[Static Type Inference Engine]
+    D --> E[Tree Shaking & Dead Code Eliminator]
+    E --> F[WATE Compiler]
+    F --> G[VM Bytecode Generation]
+    G --> H[Sandboxed Virtual Machine VM]
+    H --> I[Output & Executable Thread Execution]
+    
+    style A fill:#0F1B3D,stroke:#00D4FF,stroke-width:2px,color:#fff
+    style C fill:#1A0A3D,stroke:#A855F7,stroke-width:2px,color:#fff
+    style E fill:#1A0A3D,stroke:#A855F7,stroke-width:2px,color:#fff
+    style H fill:#0F1B3D,stroke:#FF6B35,stroke-width:2px,color:#fff
 ```
 
-### Try-Catch-Finally Exception Handling
-```wate
-try {
-    throw "Fatal connection failure"
-} catch (e) {
-    out(f"⚠️ Recovered: {e.message}")
-} finally {
-    out("Cleanup execution complete.")
-}
+### ASCII Representation:
 ```
-
-### Pythonic Job Scheduler
-```wate
-# Executed automatically every 5 minutes in background
-set scheduleHandle = every("5m", fn() {
-    out("⏱️ Background tick running every 5 minutes!")
-})
-```
-
----
-
-## 📦 WPM Official Packages Registry (12 Core Modules)
-
-WPM includes **12 pre-bundled production packages** in its local offline fallback registry. You can install them in any directory with `.\wpm.exe install <pkg>`:
-
-### 1. 🌐 `web` (High-Performance HTTP Router)
-```wate
-import "web"
-
-set app = WebApp()
-
-app.get("/", fn(req, res) {
-    res.json({ message: "WATE Production Backend Running" })
-})
-
-app.listen(8080, fn() {
-    out("🚀 Server listening at http://localhost:8080")
-})
-```
-
-### 2. 🤖 `bot` (Browser Scraper & Automated Web Tester)
-```wate
-import "bot"
-
-async fn scrapeWeb() {
-    # Pops up real system default browser viewport visually!
-    bot.open("https://example.com")
-    bot.click("#login")
-    bot.type("#email", "test@gmail.com")
-    await bot.wait(2000)
-    out("Scraping completed!")
-}
-scrapeWeb()
-```
-
-### 3. 💾 `db` (Document JSON Persistent DB)
-```wate
-import "db"
-
-set database = Database("prod_records.json")
-set employees = database.collection("employees")
-
-employees.insert({ id: 101, name: "Waseem", status: "Active" })
-set results = employees.find(fn(emp) { return emp.status is "Active" })
-```
-
-### 4. 🧠 `ai` (Gemini-style LLM Text Generator)
-```wate
-import "ai"
-
-set client = AIClient("your-api-key")
-set completion = client.generateText("Hello AI, how do database pools work?")
-out(completion)
-```
-
-### 5. 🐬 `mysql` (MySQL Client Connection Pool)
-```wate
-import "mysql"
-
-set db = MySQLClient({ host: "127.0.0.1", port: 3306, user: "root" })
-if (db.ping()) {
-    set records = db.query("SELECT * FROM products WHERE stock > ?", [10])
-}
-```
-
-### 6. 🐘 `postgres` (PostgreSQL Client with Transaction support)
-```wate
-import "postgres"
-
-set db = PostgresClient("postgresql://admin:secret@localhost:5432/db")
-db.transaction(fn() {
-    db.query("UPDATE accounts SET status = 'active' WHERE id = ?", [404])
-})
-```
-
-### 7. 💾 `sqlite` (SQLite Embedded Database Client)
-```wate
-import "sqlite"
-
-set db = SQLiteDatabase("app.db")
-set rows = db.query("SELECT * FROM tasks WHERE due_date = ?", ["today"])
-```
-
-### 8. 🍃 `mongodb` (MongoDB Document Schema Client)
-```wate
-import "mongodb"
-
-set client = MongoClient("mongodb://localhost:27017", "shop")
-set items = client.collection("items")
-items.insertOne({ name: "Gaming PC", price: 1200 })
-```
-
-### 9. 📄 `csv` (CSV File Parser and Stringifier)
-```wate
-import "csv"
-
-set parsedRows = csv.parse("id,name\n1,Waseem\n2,Developer")
-set rawCSV = csv.stringify([{ id: 1, name: "Waseem" }], ["id", "name"])
-```
-
-### 10. 📈 `excel` (Excel Spreadsheet Reader and Writer)
-```wate
-import "excel"
-
-excel.write("report.xlsx", { "Q1": [{ name: "Sales", revenue: 50000 }] })
-set sheetData = excel.read("report.xlsx")
-```
-
-### 11. 📕 `pdf` (PDF Report Document Generator)
-```wate
-import "pdf"
-
-pdf.create("invoice.pdf", { title: "WATE Invoice #9981" })
-```
-
-### 12. 🖼️ `image` (Image Resizing and Formats Converter)
-```wate
-import "image"
-
-img.resize("profile.png", 200, 200, "profile_thumb.png")
-img.convert("profile_thumb.png", "jpg", "profile_thumb.jpg")
+┌─────────────────────────────────────────────────────┐
+│                  WATE Source (.wate)                │
+└───────────────────────┬─────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────┐
+│         Recursive Descent AST Parser                │
+│   • Tokenizer → Token Stream → AST Nodes            │
+│   • Caret Diagnostics (line, column, error-highlight)│
+└───────────────────────┬─────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────┐
+│              Bytecode Compiler / VM                  │
+│   • AST → Bytecode Instructions                     │
+│   • Static Type Inference Engine & Warnings         │
+│   • Tree Shaking (Dead Code Elimination)            │
+└───────────────────────┬─────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────┐
+│               Sandboxed Runtime                     │
+│   • Permission guards: --allow-net, --allow-read    │
+│   • Multi-thread workers pool                       │
+│   • Hot Reload watcher (--watch)                    │
+└─────────────────────────────────────────────────────┘
+                        │
+               ┌─────────┼─────────┐
+               ▼         ▼         ▼
+          WPM (pkg)  LSP Server  REPL
+          12 pkgs    VS Code     Interactive
 ```
 
 ---
 
-## 🛠️ CLI Operations Reference
+## ⚙️ Installation Guide
 
-```powershell
-# 1. Initialize a new WATE repository configuration
-.\wpm.exe init
+### Option 1: Automatic Installer (Windows - Highly Recommended)
+1. Download `WATE_Setup_v1.0.0.exe` from the latest **[GitHub Releases](https://github.com/waseem3423/wate/releases)** page.
+2. Run the installer. It will:
+   - Configure paths in your system environment variable `PATH`.
+   - Setup global executable aliases for `wate` and `wpm`.
+   - Setup custom file associations so `.wate` files show a premium branded WATE icon.
+   - Automatically register the VS Code, Cursor, Windsurf, and Antigravity extensions.
+3. Open a terminal and run:
+   ```powershell
+   wate version
+   wpm --help
+   ```
 
-# 2. Install official dependencies
-.\wpm.exe install web
-.\wpm.exe install sqlite
-.\wpm.exe install excel
+### Option 2: Building from Source
+If you wish to compile the binaries manually from source code:
+1. Ensure Node.js (v18+) is installed.
+2. Clone the repository and install global packaging requirements:
+   ```bash
+   git clone https://github.com/waseem3423/wate.git
+   cd wate
+   npm install -g pkg
+   ```
+3. Compile the standalone executables:
+   ```bash
+   # Compile WATE Engine
+   pkg wate.js --targets node18-win-x64 --output wate.exe
 
-# 3. View installed package tree
-.\wpm.exe list
+   # Compile WPM Package Manager
+   pkg wpm.js --targets node18-win-x64 --output wpm.exe
+   ```
 
-# 4. Compile and execute any script file
-.\wate.exe tests/12_office_media_integration.wate
+### Option 3: Manual VS Code Extension Setup
+To install the developer highlighting & snippets manually:
+```bash
+code --install-extension wate-vscode/wate-lang-2.0.0.vsix --force
 ```
 
 ---
 
-## 🧬 OOP & Compile-Time Interface Verifications
+## 🚀 Quick Start
 
-WATE provides structural compiler checks verifying interface conformance checks at build time before compiling to output:
+Create a file named `hello.wate` and paste the following snippet:
 
 ```wate
-interface Runnable {
-    method runTask;
+# hello.wate
+fn greet(name) {
+    return f"Hello, {name}! Welcome to WATE ⚡"
 }
 
-class CustomJob implements Runnable {
-    fn runTask() {
-        out("Job completed!")
+set developers = ["Waseem", "Antigravity", "World"]
+for dev in developers {
+    out(greet(dev))
+}
+```
+
+Now, run the script from your terminal:
+```bash
+wate hello.wate
+```
+
+**Output:**
+```
+Hello, Waseem! Welcome to WATE ⚡
+Hello, Antigravity! Welcome to WATE ⚡
+Hello, World! Welcome to WATE ⚡
+```
+
+---
+
+## 📦 WPM Package Manager
+
+WATE is equipped with **WPM**, a dedicated standard library package manager. WPM allows you to seamlessly fetch and configure robust system modules instantly:
+
+| Module | Category | Description |
+|:---|:---|:---|
+| 🌐 `web` | Server | Full Web framework with routing, middleware, and request/response abstraction. |
+| 🤖 `bot` | Automation | Browser automaton API for headless navigation, testing, and scraping. |
+| 📂 `db` | Database | Zero-dependency Document-based JSON database with automatic file persistence. |
+| 🧠 `ai` | AI Integration| Deep Gemini-style API bindings to query large language models dynamically. |
+| 💾 `sqlite` | Database | Embedded, high-performance database client module. |
+| 🐘 `postgres`| Database | PostgreSQL connection client supporting transactions. |
+| 🐬 `mysql` | Database | MySQL database engine module supporting connection pooling. |
+| 🍃 `mongodb`| Database | NoSQL MongoDB database driver. |
+| 📊 `csv` | Utility | Fast CSV generator and parsing module. |
+| 📈 `excel` | Utility | Programmatically read, edit, and write native `.xlsx` workbooks. |
+| 📄 `pdf` | Utility | Rich vector PDF rendering engine for standard report sheets. |
+| 🖼️ `image` | Utility | Manipulate, resize, crop, and convert graphics programmatically. |
+
+### WPM Commands:
+```bash
+wpm install web        # Install Web Framework
+wpm install sqlite     # Install SQLite Client
+wpm list               # View all installed modules
+wpm remove web         # Uninstall a module
+```
+
+---
+
+## 📁 Examples Folder & Code Snippets
+
+For hands-on coding, explore the **[examples](./examples)** directory where you'll find ready-to-run configurations:
+- 🌐 [HTTP Server Example](./examples/server.wate)
+- 💾 [SQLite Query Operations](./examples/database.wate)
+- 🤖 [Web Scraper Automation](./examples/automation.wate)
+- ⏰ [Task Scheduler Daemon](./examples/scheduler.wate)
+- 🚀 [Hello World Entrypoint](./examples/hello.wate)
+
+---
+
+## 📖 Deep Language Demos
+
+### 1. Object-Oriented Interface Guard
+```wate
+interface Printable {
+    method printDetails;
+}
+
+class Product implements Printable {
+    init(title, price) {
+        this.title = title
+        this.price = price
+    }
+
+    printDetails() {
+        out(f"Product: {this.title} | Price: ${this.price}")
     }
 }
+
+set item = Product("WATE Manual Book", 49.99)
+item.printDetails()  # => Product: WATE Manual Book | Price: $49.99
 ```
+
+### 2. Sandbox Permissive Guarding
+```wate
+# Execute script with strict access controls
+# CLI: wate run secure.wate --allow-read
+
+set source = file.read("config.json")       # ✅ Granted successfully
+set request = http.get("https://google.com") # ❌ Exception: WATE Permission Denied!
+```
+
+### 3. Task Scheduler & Timer
+```wate
+# Heartbeat check runs every 5 seconds
+set check = every("5s", fn() {
+    out(f"🚀 [Daemon Logger] System health status green at {date.time()}")
+})
+```
+
+---
+
+## 🗺️ Product Roadmap
+
+| Goal Status | Title | Description |
+|:---:|:---|:---|
+| 🟢 **Stablized** | AST Engine & Lexer | Custom recursive descent syntax compilation. |
+| 🟢 **Stablized** | Bytecode VM Interpreter | Sandboxed low-overhead execution shell. |
+| 🟢 **Stablized** | Caret Error Pointer | Visual highlighting of syntax errors with exact column diagnostics. |
+| 🟢 **Stablized** | WPM package system | 12 built-in enterprise driver modules pre-packaged. |
+| 🟢 **Stablized** | Extension Snippets v2.0.0| 20+ ready templates with VS Code syntax configuration. |
+| 🟢 **Stablized** | Auto Test Runner | Integrated `wate test` suite runner with clean summaries. |
+| 🟡 **In-Development** | WATE Web Playground | Run WATE code directly inside any web browser. |
+| 🟡 **In-Development** | Public package registry | Community-submitted modules hosting library. |
+| 🔵 **Future Planned**| WASM compiler output | Native WebAssembly compiling pipeline. |
+| 🔵 **Future Planned**| VS Code Visual Debugger | Live interactive break-points debugging panel. |
 
 ---
 
 ## 📄 License
-MIT © WazemTech (Waseem Akram)
+WATE is open-source software licensed under the **[MIT License](./LICENSE)**.
+
+---
+<div align="center">
+Built with ❤️ by <b>WazemTech (Waseem Akram)</b>. Give WATE a ⭐ on GitHub!
+</div>
