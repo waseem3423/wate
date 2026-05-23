@@ -1,0 +1,21 @@
+# WATE NPM/Node Bridge Example
+# Shows how to use external npm packages directly within WATE!
+# Run with permissions: wate run npm_bridge.wate -A
+#
+# Pre-requisite:
+# Install axios using WPM:
+#   wpm install npm:axios
+
+import npm "axios"
+
+out("⚡ Fetching data using NPM Axios package...")
+
+# Query a public mock API
+set res = axios.get("https://jsonplaceholder.typicode.com/posts/1")
+
+res.then(fn(response) {
+    out("\n📦 Received Post from NPM Axios:")
+    out(f"   [ID] {response.data.id}")
+    out(f"   [Title] {response.data.title}")
+    out(f"   [Body] {response.data.body}")
+})

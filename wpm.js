@@ -538,6 +538,43 @@ function installPackage(pkgSpec) {
     process.exit(1);
   }
 
+  // Node/NPM Bridge support
+  if (pkgSpec.startsWith('npm:')) {
+    const npmPkg = pkgSpec.substring(4); // e.g. "axios" or "axios@1.2.0"
+    let npmName = npmPkg;
+    let npmVer = '';
+    if (npmPkg.includes('@')) {
+      const parts = npmPkg.split('@');
+      npmName = parts[0];
+      npmVer = parts[1];
+    }
+    
+    console.log(`${C.cyan}⚡ Running Node/NPM Bridge... Installing '${npmName}' from npm registry...${C.reset}`);
+    
+    const { execSync } = require('child_process');
+    try {
+      execSync(`npm install ${npmPkg}`, { stdio: 'inherit' });
+      
+      // Update wate.json
+      const configPath = path.join(process.cwd(), 'wate.json');
+      let config = { dependencies: {} };
+      if (fs.existsSync(configPath)) {
+        try {
+          config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+        } catch (e) {}
+      }
+      config.dependencies = config.dependencies || {};
+      config.dependencies[`npm:${npmName}`] = npmVer ? '^' + npmVer : '^latest';
+      fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+      
+      console.log(`${C.green}✓ NPM Package '${npmName}' successfully installed via Node/NPM Bridge!${C.reset}\n`);
+      return;
+    } catch (err) {
+      console.error(`${C.red}❌ Error: Failed to install npm package '${npmName}'. Make sure Node/NPM is installed.${C.reset}`);
+      process.exit(1);
+    }
+  }
+
   let pkgName = pkgSpec;
   let pkgVer = '1.0.0';
   if (pkgSpec.includes('@')) {
@@ -592,6 +629,32 @@ function removePackage(pkgName) {
     process.exit(1);
   }
 
+  if (pkgName.startsWith('npm:')) {
+    const npmName = pkgName.substring(4);
+    console.log(`${C.cyan}⚡ Uninstalling npm package '${npmName}'...${C.reset}`);
+    const { execSync } = require('child_process');
+    try {
+      execSync(`npm uninstall ${npmName}`, { stdio: 'inherit' });
+      
+      // Update wate.json config
+      const configPath = path.join(process.cwd(), 'wate.json');
+      if (fs.existsSync(configPath)) {
+        try {
+          const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+          if (config.dependencies && config.dependencies[pkgName]) {
+            delete config.dependencies[pkgName];
+            fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+          }
+        } catch (e) {}
+      }
+      console.log(`${C.green}✓ NPM Package '${npmName}' successfully uninstalled.${C.reset}`);
+      return;
+    } catch (e) {
+      console.error(`${C.red}❌ Error: Failed to uninstall npm package '${npmName}'.${C.reset}`);
+      process.exit(1);
+    }
+  }
+
   const dir = path.join(process.cwd(), 'wate_packages', pkgName);
   if (!fs.existsSync(dir)) {
     console.error(`${C.red}❌ Error: Package '${pkgName}' is not installed.${C.reset}`);
@@ -618,19 +681,38 @@ function removePackage(pkgName) {
 
 function listPackages() {
   const dir = path.join(process.cwd(), 'wate_packages');
-  if (!fs.existsSync(dir)) {
-    console.log(`${C.grey}No local packages installed. Run 'wpm install' to get started!${C.reset}`);
-    return;
+  let wateInstalled = false;
+  if (fs.existsSync(dir)) {
+    const pkgs = fs.readdirSync(dir);
+    if (pkgs.length > 0) {
+      wateInstalled = true;
+      console.log(`${C.bright}${C.cyan}Installed WATE Packages (${pkgs.length}):${C.reset}`);
+      pkgs.forEach(p => {
+        console.log(`  ${C.green}├── ${p}${C.reset} ${C.grey}(v1.0.0)${C.reset}`);
+      });
+    }
   }
-  const pkgs = fs.readdirSync(dir);
-  if (pkgs.length === 0) {
-    console.log(`${C.grey}No local packages installed.${C.reset}`);
-    return;
+  
+  if (!wateInstalled) {
+    console.log(`${C.grey}No local WATE packages installed.${C.reset}`);
   }
-  console.log(`${C.bright}${C.cyan}Installed Packages (${pkgs.length}):${C.reset}`);
-  pkgs.forEach(p => {
-    console.log(`  ${C.green}├── ${p}${C.reset} ${C.grey}(v1.0.0)${C.reset}`);
-  });
+  
+  // Also list NPM dependencies from wate.json
+  const configPath = path.join(process.cwd(), 'wate.json');
+  if (fs.existsSync(configPath)) {
+    try {
+      const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+      if (config.dependencies) {
+        const npmPkgs = Object.keys(config.dependencies).filter(k => k.startsWith('npm:'));
+        if (npmPkgs.length > 0) {
+          console.log(`\n${C.bright}${C.cyan}Installed NPM Bridge Packages (${npmPkgs.length}):${C.reset}`);
+          npmPkgs.forEach(p => {
+            console.log(`  ${C.green}├── ${p.substring(4)}${C.reset} ${C.grey}(${config.dependencies[p]})${C.reset}`);
+          });
+        }
+      }
+    } catch (e) {}
+  }
   console.log();
 }
 

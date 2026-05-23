@@ -331,8 +331,19 @@ class Parser {
 
   parseImport() {
     const loc = this.expect(TT.KEYWORD, 'import');
+    
+    let isNpm = false;
+    if (this.check(TT.IDENT, 'npm') || this.check(TT.KEYWORD, 'npm')) {
+      this.pos++;
+      isNpm = true;
+    }
+    
     const source = this.expect(TT.STRING, null, 'Expected import path string').value;
     this.match(TT.PUNC, ';');
+
+    if (isNpm) {
+      return { type: 'ImportStatement', source, loc };
+    }
 
     let resolvedPath = null;
 
@@ -1036,7 +1047,10 @@ class CodeGenerator {
     switch (node.type) {
       case 'Program': return node.body.map(n => this.gen(n)).join('\n');
       case 'BlockStatement': return `{\n${this.indent(node.body.map(n => this.gen(n)).join('\n'))}\n}`;
-      case 'ImportStatement': return `// [WATE AST Import] ${node.source}\nrequire(${JSON.stringify(node.source)});`;
+      case 'ImportStatement': {
+        const identifier = node.source.replace(/[^a-zA-Z0-9_$]/g, '_');
+        return `// [WATE AST Import] ${node.source}\nvar ${identifier} = require(${JSON.stringify(node.source)});`;
+      }
       case 'ImportBlock': return `// [WATE AST Import: ${node.source}]\n${node.body.map(n => this.gen(n)).join('\n')}\n// [End Import]`;
       case 'VariableDeclaration': return this.genVar(node);
       case 'FunctionDeclaration': return `${node.async ? 'async ' : ''}function${node.generator ? '*' : ''} ${node.name}(${node.params.join(', ')}) ${this.gen(node.body)}`;
@@ -1533,6 +1547,11 @@ class SemanticAnalyzer {
         }
         this.visit(node.body);
         this.currentScope = oldScope;
+        break;
+      }
+      case 'ImportStatement': {
+        const identifier = node.source.replace(/[^a-zA-Z0-9_$]/g, '_');
+        this.currentScope.define(identifier, { kind: 'var', type: 'object', node });
         break;
       }
     }
