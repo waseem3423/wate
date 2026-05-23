@@ -1424,7 +1424,7 @@ class SemanticAnalyzer {
         if (name === 'this' || name === 'super') return;
         const symbol = this.currentScope.lookup(name);
         if (!symbol && this.filePath !== '<repl>') {
-          const globals = ['file', 'sys', 'http', 'math', 'str', 'input', 'json', 'date', 'color', 'os', 'env', 'regex', 'crypto', 'wpath', 'list', 'num', 'assert', 'timer', 'stack', 'queue', 'table', 'type', 'every', 'out', 'True', 'False', 'null', 'Bot', 'Database', 'AIClient', 'SQLiteDatabase', 'MySQLClient', 'PostgresClient', 'MongoClient', 'csv', 'excel', 'pdf', 'img', 'bot', 'WebApp', 'thread'];
+          const globals = ['file', 'sys', 'http', 'math', 'str', 'input', 'json', 'date', 'color', 'os', 'env', 'regex', 'crypto', 'wpath', 'list', 'num', 'assert', 'timer', 'stack', 'queue', 'table', 'type', 'every', 'out', 'print', 'True', 'False', 'null', 'Bot', 'Database', 'AIClient', 'SQLiteDatabase', 'MySQLClient', 'PostgresClient', 'MongoClient', 'csv', 'excel', 'pdf', 'img', 'bot', 'WebApp', 'thread'];
           if (globals.includes(name)) return;
           this.error(`Variable '${name}' is not defined.`, node);
         }
