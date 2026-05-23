@@ -1,2 +1,3 @@
-*.wate linguist-language=WATE
+*.wate linguist-language=JavaScript
 *.js linguist-generated=true
+*.iss linguist-generated=true
