@@ -1,0 +1,2 @@
+*.wate linguist-language=WATE
+*.js linguist-generated=true
