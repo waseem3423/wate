@@ -355,21 +355,28 @@ class Parser {
       else if (fs.existsSync(p)) resolvedPath = p;
     }
 
-    // Check #2: Inside local wate_packages (relative to script)
-    if (!resolvedPath && this.filePath && this.filePath !== '<input>') {
-      const dir = path.dirname(path.resolve(this.filePath));
-      const p1 = path.resolve(dir, 'wate_packages', source, 'index.wate');
-      const p2 = path.resolve(dir, 'wate_packages', source + '.wate');
-      if (fs.existsSync(p1)) resolvedPath = p1;
-      else if (fs.existsSync(p2)) resolvedPath = p2;
-    }
-
-    // Check #3: Inside current working directory's wate_packages
+    // Check #2: Walk up directory tree to find wate_packages
     if (!resolvedPath) {
-      const p3 = path.resolve(process.cwd(), 'wate_packages', source, 'index.wate');
-      const p4 = path.resolve(process.cwd(), 'wate_packages', source + '.wate');
-      if (fs.existsSync(p3)) resolvedPath = p3;
-      else if (fs.existsSync(p4)) resolvedPath = p4;
+      const searchDirs = [];
+      if (this.filePath && this.filePath !== '<input>') {
+        searchDirs.push(path.dirname(path.resolve(this.filePath)));
+      }
+      searchDirs.push(process.cwd());
+
+      for (let startDir of searchDirs) {
+        let currentDir = startDir;
+        while (currentDir) {
+          const p1 = path.join(currentDir, 'wate_packages', source, 'index.wate');
+          const p2 = path.join(currentDir, 'wate_packages', source + '.wate');
+          if (fs.existsSync(p1)) { resolvedPath = p1; break; }
+          if (fs.existsSync(p2)) { resolvedPath = p2; break; }
+          
+          const parentDir = path.dirname(currentDir);
+          if (parentDir === currentDir) break; // Reached root
+          currentDir = parentDir;
+        }
+        if (resolvedPath) break;
+      }
     }
 
     // Perform Recursive AST Inlining if resolved!
