@@ -10,3 +10,4 @@ test_web.wate
 test_shake.wate
 tmp_*
 wate_packages/
+*.vsix
