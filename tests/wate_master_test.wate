@@ -1,0 +1,141 @@
+out("================================================")
+out("🧪 WATE Language 12-Feature Master Test Suite (Native WATE Implementation)")
+out("================================================\n")
+
+set passed = 0
+set total = 12
+
+# 1. Scope Resolver
+out("⏳ Testing Scope Resolver (Undeclared Variables)...")
+file.write("tests/tmp_scope.wate", "out(undefinedVar)")
+set res1 = sys.exec("node wate.js tests/tmp_scope.wate 2>&1 || ver > nul")
+if (str.contains(res1, "Variable 'undefinedVar' is not defined")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 2. Static Type Inference
+out("⏳ Testing Static Type Inference (String Math Warning)...")
+file.write("tests/tmp_type.wate", "set x = \"hello_" + date.stamp() + "\"\nset y = x - 5")
+set res2 = sys.exec("node wate.js tests/tmp_type.wate 2>&1 || ver > nul")
+if (str.contains(res2, "Cannot apply arithmetic operator '-' on type 'string'")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 3. Bytecode VM
+out("⏳ Testing Bytecode VM Execution (--vm)...")
+file.write("tests/tmp_vm.wate", "out(\"VM_WORKING\")")
+set res3 = sys.exec("node wate.js --vm tests/tmp_vm.wate 2>&1 || ver > nul")
+if (str.contains(res3, "VM_WORKING")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 4. Sandboxed Runtime Permissions
+out("⏳ Testing Sandboxed Permissions (--allow-*)...")
+file.write("tests/tmp_sandbox.wate", "file.read(\"nonexistent\")")
+set res4_fail = sys.exec("node wate.js tests/tmp_sandbox.wate 2>&1 || ver > nul")
+set res4_pass = sys.exec("node wate.js --allow-read tests/tmp_sandbox.wate 2>&1 || ver > nul")
+if (str.contains(res4_fail, "Permission Error") and not str.contains(res4_pass, "Permission Error")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 5. Source Maps (Stack Trace Mapping)
+out("⏳ Testing Source Maps (WATE Line Numbers)...")
+file.write("tests/tmp_map.wate", "\n\nmath.non_existent_method()")
+set res5 = sys.exec("node wate.js tests/tmp_map.wate 2>&1 || ver > nul")
+if (str.contains(res5, "tmp_map.wate:3:")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 6. Incremental Compiler (Caching)
+out("⏳ Testing Incremental Compiler (.wate_cache)...")
+file.write("tests/tmp_cache.wate", "out(\"CACHE\")")
+sys.exec("node wate.js tests/tmp_cache.wate 2>&1 || ver > nul")
+if (wpath.isDir(".wate_cache")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 7. Tree-Shaking
+out("⏳ Testing AST Tree-Shaking (Unused Removal)...")
+file.write("tests/tmp_shake.wate", "fn unused() { out(\"dead_177\") }\nout(\"alive_" + date.stamp() + "\")")
+sys.exec("node wate.js tests/tmp_shake.wate 2>&1 || ver > nul")
+set res7 = sys.exec("node tests/tree_shake_helper.js 2>&1 || ver > nul")
+if (str.contains(res7, "SHAKE_PASS")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 8. Hot Reload (--watch)
+out("⏳ Testing Hot Reload / Watch Mode...")
+set res8 = sys.exec("node tests/master_test_helper.js watch 2>&1 || ver > nul")
+if (str.contains(res8, "Watching")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 9. Native Package Registry (WPM CLI)
+out("⏳ Testing Native Package Registry (WPM CLI)...")
+set res9 = sys.exec("node wpm.js help 2>&1 || ver > nul")
+if (str.contains(res9, "WPM: WATE Package Manager")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 10. LSP (Language Server Protocol)
+out("⏳ Testing LSP (Diagnostics over stdin)...")
+set res10 = sys.exec("node tests/test_lsp.js 2>&1 || ver > nul")
+if (str.contains(res10, "Unexpected token")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 11. REPL Shell
+out("⏳ Testing REPL Shell & Scope Explorer...")
+set res11 = sys.exec("node tests/test_repl.js 2>&1 || ver > nul")
+if (str.contains(res11, "PASS ✅")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+# 12. Multi-Thread Worker System
+out("⏳ Testing Multi-Thread Concurrency...")
+set res12 = sys.exec("node wate.js tests/12_worker_main.wate 2>&1 || ver > nul")
+if (str.contains(res12, "success result: 420")) {
+    out("   ✅ PASS")
+    passed = passed + 1
+} else {
+    out("   ❌ FAIL")
+}
+
+out("\n================================================")
+out("🏆 Final Results: " + passed + "/" + total + " Tests Passed")
+if (passed == total) {
+    out("🌟 ALL FEATURES ARE SUCCESSFULLY INTEGRATED & TESTED! 🌟")
+}

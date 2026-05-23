@@ -1,0 +1,23 @@
+# ============================================================
+# WATE Feature Test: High-Performance Browser Bot Automation
+# Launches real system browser viewport!
+# ============================================================
+
+import "bot"
+
+async fn runAutomation() {
+    out("=== Running Browser Automation Script ===")
+    
+    # This will open the real active web page on your desktop!
+    bot.open("https://example.com")
+    
+    bot.click("#login")
+    bot.type("#email", "test@gmail.com")
+    
+    # Await sleep
+    await bot.wait(2000)
+    
+    out("✓ Browser Automation workflow completed successfully!")
+}
+
+runAutomation()

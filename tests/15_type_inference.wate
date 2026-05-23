@@ -1,0 +1,20 @@
+# ============================================================
+# WATE Feature Test: High-Performance Static Type Inference
+# Autodetects variable types and alerts developer on unsafe math!
+# ============================================================
+
+out("=== Starting Static Type Inference Test ===")
+
+set name = "Waseem Akram"
+set age = 25
+set isDeveloper = True
+
+out(f"Inferred String Name: {name}")
+out(f"Inferred Number Age: {age}")
+out(f"Inferred Boolean Flag: {isDeveloper}")
+
+# The following division or multiplication on string will trigger type warnings!
+out("\n[WATE Type Inference] Triggering intentional warning:")
+set badResult = name * 5
+
+out("✓ Static Type Inference test finished successfully!")

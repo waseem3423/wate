@@ -1,0 +1,40 @@
+{
+  "name": "wate-lang",
+  "displayName": "WATE Language Support",
+  "description": "Syntax highlighting, snippets, and language support for WATE",
+  "version": "2.0.0",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "publisher": "WazemTech",
+  "contributes": {
+    "languages": [
+      {
+        "id": "wate",
+        "aliases": ["WATE", "wate"],
+        "extensions": [".wate"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/wate-icon.svg",
+          "dark": "./icons/wate-icon.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "wate",
+        "scopeName": "source.wate",
+        "path": "./syntaxes/wate.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "wate",
+        "path": "./snippets/wate.code-snippets"
+      }
+    ]
+  }
+}

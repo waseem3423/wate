@@ -1,0 +1,12 @@
+node_modules/
+.wate_cache/
+*.exe
+*.log
+*.pdf
+*.xlsx
+tests_database.json
+test.wate
+test_web.wate
+test_shake.wate
+tmp_*
+wate_packages/

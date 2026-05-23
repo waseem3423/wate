@@ -1,0 +1,37 @@
+# ============================================================
+# WATE Feature Test: Advanced Classes, Inheritance, Private Fields
+# ============================================================
+
+class Base {
+    #id;
+    
+    constructor(id) {
+        set this.#id = id;
+    }
+    
+    get id() {
+        return this.#id;
+    }
+}
+
+class Derived extends Base {
+    #name;
+    
+    constructor(id, name) {
+        super(id);
+        set this.#name = name;
+    }
+    
+    fn display() {
+        out(f"OOP Success -> ID: {this.id} | Name: {this.#name}");
+    }
+}
+
+set obj = Derived(101, "Waseem Akram")
+obj.display()
+
+if (obj.id is 101) {
+    out("✓ OOP Classes and Private Fields test PASSED!")
+} else {
+    out("✗ OOP test FAILED!")
+}

@@ -1,0 +1,10 @@
+# ============================================================
+# WATE Feature Test: High-Fidelity Source Maps
+# Traces exceptions back to the exact line in WATE source files!
+# ============================================================
+
+out("=== Starting Source Maps Line Tracing Test ===")
+
+set x = null
+out("Triggering property access crash on null:")
+set badAccess = x.nonExistentProperty

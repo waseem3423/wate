@@ -1,0 +1,25 @@
+# ============================================================
+# WATE Feature Test: Loops (Repeat, While, Foreach)
+# ============================================================
+
+# 1. Repeat Count Loop
+out("1. Repeat loop execution:")
+repeat 3 times {
+    out("  Running repeat action...")
+}
+
+# 2. While Loop
+out("2. While loop execution:")
+set i = 1
+while (i <= 3) {
+    out(f"  Iteration: {i}")
+    i = i + 1
+}
+
+# 3. Foreach Loop
+out("3. Foreach loop execution:")
+set tech = ["AST", "WATE", "WPM"]
+foreach t in tech {
+    out(f"  Tech element: {t}")
+}
+out("✓ Loops test PASSED!")

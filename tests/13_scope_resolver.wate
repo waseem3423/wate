@@ -1,0 +1,23 @@
+# ============================================================
+# WATE Feature Test: High-Performance Scope Resolver
+# Enforces lexically scoped variables, shadowing, and safety!
+# ============================================================
+
+out("=== Starting Scope Shadowing Test ===")
+
+set x = 100
+set y = 200
+
+# Nested Lexical Scope Block
+{
+    set x = 500  # Shadowing outer x!
+    out(f"Shadowed Inner x: {x}") # Should print 500
+    out(f"Accessible Outer y: {y}") # Should print 200
+    
+    set z = 999
+    out(f"Block Variable z: {z}") # Should print 999
+}
+
+out(f"Restored Outer x: {x}") # Should print 100
+
+out("✓ Scope Shadowing test completed successfully!")

@@ -1,0 +1,36 @@
+# ============================================================
+# WATE Feature Test: Control Flow, Guards, and Match Patterns
+# ============================================================
+
+fn testGuard(score) {
+    # 1. Guard check inside function
+    guard (score >= 50) else {
+        out("Failed!")
+        return
+    }
+
+    # 2. If-Else structure
+    if (score >= 90) {
+        out("Grade: A")
+    } else if (score >= 80) {
+        out("Grade: B")
+    } else {
+        out("Grade: C")
+    }
+
+    # 3. Match Pattern
+    set role = "admin"
+    match role {
+        "admin" => {
+            out("✓ Match test PASSED: User is Admin!")
+        }
+        "user" => {
+            out("User is Standard!")
+        }
+        _ => {
+            out("Role unknown!")
+        }
+    }
+}
+
+testGuard(85)

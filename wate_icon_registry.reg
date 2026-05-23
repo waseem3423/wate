@@ -1,0 +1,10 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Classes\.wate]
+@="Wate.Script"
+
+[HKEY_CURRENT_USER\Software\Classes\Wate.Script]
+@="WATE Source File"
+
+[HKEY_CURRENT_USER\Software\Classes\Wate.Script\DefaultIcon]
+@="\"C:\\Users\\Wasee\\OneDrive\\Desktop\\New folder\\wate.ico\",0"

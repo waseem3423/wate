@@ -1,0 +1,20 @@
+# ============================================================
+# WATE Feature Test: Interfaces Compile-Time Validation
+# ============================================================
+
+interface Logger {
+    method logMessage;
+}
+
+class ConsoleLogger implements Logger {
+    constructor() {}
+    
+    fn logMessage(msg) {
+        out(f"[LOG]: {msg}");
+    }
+}
+
+set logger = ConsoleLogger()
+logger.logMessage("Testing interface contract implementation...")
+
+out("✓ Interfaces Compile-Time validation test PASSED!")

@@ -1,0 +1,19 @@
+# ============================================================
+# WATE Feature Test: Compile-Time Tree-Shaking
+# Automatically eliminates unused declarations and functions!
+# ============================================================
+
+fn unusedHelperFunction() {
+    out("This is dead code and should be removed by the WATE Tree-Shaking pass!")
+}
+
+fn activeHelperFunction() {
+    out("=== Starting Tree-Shaking Integration Test ===")
+    out("[Optimizer] This function is used and should be preserved.")
+}
+
+set unusedVariable = "dead value"
+set activeVariable = "live value"
+
+activeHelperFunction()
+out(f"[Optimizer] Preserved variable: {activeVariable}")

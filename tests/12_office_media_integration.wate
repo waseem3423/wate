@@ -1,0 +1,35 @@
+# ============================================================
+# WATE Feature Test: High-Performance Office & Media Automation
+# Tests CSV, Excel, PDF, and Image Processing packages!
+# ============================================================
+
+import "csv"
+import "excel"
+import "pdf"
+import "image"
+
+out("=== 1. CSV Utility Integration ===")
+set myHeaders = ["id", "name", "status"]
+set myRecords = [
+    { id: "1", name: "Waseem Akram", status: "active" },
+    { id: "2", name: "Antigravity AI", status: "online" }
+]
+set serializedCSV = csv.stringify(myRecords, myHeaders)
+out(f"Serialized CSV Output:\n{serializedCSV}")
+
+set parsedCSV = csv.parse(serializedCSV)
+out(f"Parsed CSV Result: {parsedCSV}")
+
+out("=== 2. Excel Utility Integration ===")
+excel.write("employees_report.xlsx", { "Sheet1": myRecords })
+set workbookData = excel.read("employees_report.xlsx")
+out(f"Excel Sheet Reads: {workbookData}")
+
+out("=== 3. PDF Builder Integration ===")
+pdf.create("annual_report.pdf", { title: "WATE Enterprise 2026 Core Annual Report" })
+
+out("=== 4. Image Processor Integration ===")
+img.resize("workspace_logo.png", 300, 300, "workspace_logo_thumb.png")
+img.convert("workspace_logo_thumb.png", "jpg", "workspace_logo_thumb.jpg")
+
+out("✓ All 4 Office & Media Automation Packages verified successfully!")

@@ -1,0 +1,6 @@
+thread.onMessage(fn (msg) {
+    out("  [Worker] Received payload: " + msg.task)
+    set result = msg.data * 10
+    out("  [Worker] Computation complete. Result: " + result)
+    thread.postMessage({ status: "success", result: result })
+})

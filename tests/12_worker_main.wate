@@ -1,0 +1,13 @@
+out("🧵 Spawning background worker thread...")
+set worker = thread.create("tests/12_worker_thread.wate")
+
+worker.onMessage(fn (msg) {
+    if (msg.status == "success") {
+        out("🧵 Main Thread received success result: " + msg.result)
+        out("✅ Multi-thread Worker System is fully functional!")
+        worker.terminate()
+    }
+})
+
+worker.postMessage({ task: "multiply_by_10", data: 42 })
+out("🧵 Main Thread continues executing while worker processes...")

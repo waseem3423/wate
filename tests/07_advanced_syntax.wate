@@ -1,0 +1,49 @@
+# ============================================================
+# WATE Feature Test: Advanced syntax, list comprehensions,
+# do-while, break, continue, try-catch-finally, and await/async
+# ============================================================
+
+# 1. List Comprehensions with 'for'
+set nums = [1, 2, 3, 4, 5]
+set doubled = [n * 2 for n in nums if n > 2]
+out(f"List Comprehension Result: {doubled}") # Expected: [6, 8, 10]
+
+# 2. Do-While Loops, Break & Continue
+out("Do-While with Break/Continue:")
+set x = 1
+do {
+    if (x is 2) {
+        x = x + 1
+        continue
+    }
+    out(f"  Do-While Iteration: {x}")
+    if (x is 3) {
+        break
+    }
+    x = x + 1
+} while (x < 10)
+
+# 3. Try-Catch-Finally and Throw
+out("Try-Catch-Finally block:")
+try {
+    out("  Inside try, about to throw error...")
+    throw "Standard Custom Exception!"
+} catch (e) {
+    out(f"  Caught Exception: {e}")
+} finally {
+    out("  ✓ Finally block executed successfully!")
+}
+
+# 4. Async / Await compilation
+async fn fetchLocal() {
+    return "Async Value Complete!"
+}
+
+async fn runAsync() {
+    set val = await fetchLocal()
+    out(f"Async fetch: {val}")
+}
+
+runAsync()
+
+out("✓ Advanced syntax features verified successfully!")

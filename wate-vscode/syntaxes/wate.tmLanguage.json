@@ -1,0 +1,95 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "WATE",
+  "scopeName": "source.wate",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#functions" },
+    { "include": "#operators" },
+    { "include": "#builtins" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.wate",
+          "match": "#.*$"
+        },
+        {
+          "name": "comment.block.wate",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.wate",
+          "match": "\\b(if|else|while|for|return|break|continue|try|catch|finally|throw|await)\\b"
+        },
+        {
+          "name": "storage.type.wate",
+          "match": "\\b(set|const|fn|class|import|from|export|interface|implements)\\b"
+        },
+        {
+          "name": "constant.language.wate",
+          "match": "\\b(True|False|null|undefined)\\b"
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "name": "support.class.wate",
+          "match": "\\b(file|sys|http|math|str|input|json|date|color|os|env|regex|crypto|wpath|list|num|assert|timer|stack|queue|table|type|every|out|print|thread|Bot|Database|AIClient|SQLiteDatabase|MySQLClient|PostgresClient|MongoClient|csv|excel|pdf|img|bot|WebApp)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.wate",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.wate",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.wate",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.wate",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "name": "constant.numeric.wate",
+      "match": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.wate",
+          "match": "\\b([a-zA-Z_]\\w*)\\s*(?=\\()"
+        }
+      ]
+    },
+    "operators": {
+      "name": "keyword.operator.wate",
+      "match": "(=|\\+|-|\\*|/|%|>|<|!|&|\\||\\^|~)"
+    }
+  }
+}

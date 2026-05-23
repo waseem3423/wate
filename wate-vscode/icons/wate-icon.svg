@@ -1,0 +1,11 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="boltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00C6FF" />
+      <stop offset="100%" stop-color="#0072FF" />
+    </linearGradient>
+  </defs>
+  
+  <!-- "W" character styled like code brackets and a bolt (Transparent Background) -->
+  <path d="M50 80 L90 170 L128 110 L166 170 L206 80" fill="none" stroke="url(#boltGrad)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

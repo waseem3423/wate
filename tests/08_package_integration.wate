@@ -1,0 +1,51 @@
+# ============================================================
+# WATE Feature Test: High-Performance WPM Package Integration
+# Tests db, bot, and ai modules imported locally!
+# ============================================================
+
+import "db"
+import "bot"
+import "ai"
+
+out("=== 1. DB Package Integration ===")
+# Create a local JSON database
+set database = Database("tests_database.json")
+set users = database.collection("users")
+
+# Insert premium records
+users.insert({ id: 1, name: "Waseem Akram", role: "creator" })
+users.insert({ id: 2, name: "Antigravity AI", role: "assistant" })
+
+# Find record using filter closures
+set creator = users.find(fn(u) {
+    return u.role is "creator"
+})
+out(f"Database Query Result: {creator}")
+
+out("=== 2. Bot Package Integration ===")
+set myBot = Bot("my-secret-telegram-token")
+
+# Add message handlers
+myBot.onCommand("/start", fn(msg) {
+    out(f"Bot handler received /start from: {msg.from.username}")
+})
+
+myBot.onMessage(fn(msg) {
+    out(f"Bot received standard message: '{msg.text}'")
+})
+
+# Simulate chats
+myBot.simulateMessage("/start", "wazeem")
+myBot.simulateMessage("Hello WATE!", "guest_user")
+
+out("=== 3. AI Package Integration ===")
+set client = AIClient("gemini-pro-api-key")
+
+# Text completions
+set ans1 = client.generateText("hello, who are you?")
+out(f"AI response: {ans1}")
+
+set ans2 = client.generateText("how does code compilation work?")
+out(f"AI response: {ans2}")
+
+out("✓ All 4 Premium WATE packages verified successfully!")

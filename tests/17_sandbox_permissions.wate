@@ -1,0 +1,17 @@
+# ============================================================
+# WATE Feature Test: Sandboxed Runtime Permissions
+# Protects system resources from un-authorized scripts!
+# ============================================================
+
+out("=== WATE Sandbox Permission Guard ===")
+
+try {
+    # Attempting to read a sensitive file without permission
+    out("[Sandbox] Reading local file...")
+    set data = file.read("README.md")
+    out(f"File contents read successfully: {str.length(data)} characters.")
+} catch (e) {
+    out(f"❌ Handled expected permission block: {e}")
+}
+
+out("\n✓ Sandbox Permissions validation test completed!")

@@ -1,0 +1,145 @@
+{
+  "WATE Output": {
+    "prefix": ["out", "print"],
+    "body": ["out(\"$1\")"],
+    "description": "Print a value to the console using WATE's out() function."
+  },
+  "WATE Variable": {
+    "prefix": "set",
+    "body": ["set ${1:name} = ${2:value}"],
+    "description": "Declare a mutable variable in WATE."
+  },
+  "WATE Constant": {
+    "prefix": "const",
+    "body": ["const ${1:name} = ${2:value}"],
+    "description": "Declare an immutable constant in WATE."
+  },
+  "WATE Function": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:name}(${2:params}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Define a named function in WATE."
+  },
+  "WATE Arrow Function": {
+    "prefix": "fna",
+    "body": ["fn(${1:params}) { ${0} }"],
+    "description": "Define an anonymous arrow-style function in WATE."
+  },
+  "WATE If Statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} {",
+      "\t$0",
+      "}"
+    ],
+    "description": "WATE if statement."
+  },
+  "WATE If-Else": {
+    "prefix": "ife",
+    "body": [
+      "if ${1:condition} {",
+      "\t$2",
+      "} else {",
+      "\t$0",
+      "}"
+    ],
+    "description": "WATE if-else statement."
+  },
+  "WATE For Loop": {
+    "prefix": "for",
+    "body": [
+      "for ${1:item} in ${2:list} {",
+      "\t$0",
+      "}"
+    ],
+    "description": "WATE for-in loop over a list."
+  },
+  "WATE While Loop": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition} {",
+      "\t$0",
+      "}"
+    ],
+    "description": "WATE while loop."
+  },
+  "WATE Class": {
+    "prefix": "class",
+    "body": [
+      "class ${1:Name} {",
+      "\tinit(${2:params}) {",
+      "\t\t$0",
+      "\t}",
+      "}"
+    ],
+    "description": "Define a WATE class."
+  },
+  "WATE Import": {
+    "prefix": "import",
+    "body": ["import \"${1:module}\""],
+    "description": "Import a WATE package or module."
+  },
+  "WATE Try-Catch": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "\t$1",
+      "} catch(${2:e}) {",
+      "\tout($2)",
+      "}"
+    ],
+    "description": "WATE try-catch error handling block."
+  },
+  "WATE HTTP GET": {
+    "prefix": "httpget",
+    "body": ["set ${1:res} = http.get(\"${2:url}\")"],
+    "description": "Make an HTTP GET request using WATE's http module."
+  },
+  "WATE File Read": {
+    "prefix": "fread",
+    "body": ["set ${1:content} = file.read(\"${2:path}\")"],
+    "description": "Read a file using WATE's file module."
+  },
+  "WATE File Write": {
+    "prefix": "fwrite",
+    "body": ["file.write(\"${1:path}\", ${2:content})"],
+    "description": "Write to a file using WATE's file module."
+  },
+  "WATE System Execute": {
+    "prefix": "sysexec",
+    "body": ["set ${1:result} = sys.exec(\"${2:command}\")"],
+    "description": "Execute a shell command using sys.exec()."
+  },
+  "WATE Thread": {
+    "prefix": "thread",
+    "body": [
+      "set ${1:worker} = thread.create(\"${2:worker.wate}\")",
+      "${1:worker}.onMessage(fn(${3:msg}) {",
+      "\tout(${3:msg})",
+      "})",
+      "${1:worker}.postMessage(\"${4:hello}\")"
+    ],
+    "description": "Create a WATE worker thread."
+  },
+  "WATE Assert": {
+    "prefix": "assert",
+    "body": ["assert.equal(${1:actual}, ${2:expected}, \"${3:message}\")"],
+    "description": "Assert equality in a WATE test."
+  },
+  "WATE Hello World": {
+    "prefix": "hello",
+    "body": [
+      "# WATE Hello World",
+      "out(\"Hello, World!\")"
+    ],
+    "description": "Classic Hello World program in WATE."
+  },
+  "WATE f-string": {
+    "prefix": "f",
+    "body": ["f\"${1:text} {${2:variable}}\""],
+    "description": "WATE f-string for string interpolation."
+  }
+}

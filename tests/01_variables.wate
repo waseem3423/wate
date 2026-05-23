@@ -1,0 +1,15 @@
+# ============================================================
+# WATE Feature Test: Variables, Constants, and Primitives
+# ============================================================
+
+set x = 10
+const y = 20
+set z = x + y
+
+out(f"Variables: x = {x}, y = {y}, z = {z}")
+
+if (z is 30) {
+    out("✓ Variables and Expressions test PASSED!")
+} else {
+    out("✗ Variables test FAILED!")
+}

@@ -1,0 +1,21 @@
+# ============================================================
+# WATE Feature Test: High-Performance Pythonic Job Scheduler
+# Tests global every() method with flexible units inside async fn!
+# ============================================================
+
+async fn runScheduler() {
+    out("=== Starting Pythonic Scheduler ===")
+
+    # Schedule task running every 2 seconds ("2s")
+    set taskHandle = every("2s", fn() {
+        out("⏱️ Scheduled Task executing live right now!")
+    })
+
+    # Wait for 5.5 seconds to let the task run twice, then stop it!
+    await timer.sleep(5500)
+    taskHandle.stop()
+
+    out("✓ Pythonic Scheduler test completed successfully!")
+}
+
+runScheduler()
